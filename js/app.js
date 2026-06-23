@@ -41,26 +41,31 @@ async function init() {
 
 async function refreshOura() {
   const status = document.getElementById('oura-status');
-  if (status) status.textContent = 'Syncing...';
+  if (status) status.textContent = 'Syncing with Oura...';
 
   ouraData = await fetchOuraData(true);
 
-  if (ouraData && status) {
+  if (ouraData?.error) {
+    if (status) status.textContent = `Error: ${ouraData.error}`;
+    console.error('Oura error:', ouraData.error);
+    return;
+  }
+
+  if (ouraData && ouraData.readiness && status) {
     status.textContent = `Last sync: ${new Date(ouraData.lastSync).toLocaleTimeString()}`;
     updateDashboard(ouraData);
   } else if (status) {
-    status.textContent = 'No Oura data (check token)';
+    status.textContent = 'No recent Readiness data found';
   }
 }
 
 function updateDashboard(data) {
   const readinessEl = document.getElementById('readiness-score');
   if (readinessEl && data.readiness) {
-    readinessEl.textContent = data.readiness.score || '--';
+    readinessEl.textContent = data.readiness.score ?? '--';
   }
 
-  // Add more UI updates here as we build
-  console.log('Dashboard updated with Oura data');
+  console.log('Dashboard updated with Oura data:', data);
 }
 
 window.addEventListener('DOMContentLoaded', init);

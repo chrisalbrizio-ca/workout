@@ -11,12 +11,13 @@ export function saveOuraToken(token) {
 
 export async function fetchOuraData(force = false) {
   const token = getOuraToken();
-  if (!token) return null;
+  if (!token) {
+    return { error: 'No token saved' };
+  }
 
-  // Simple cache (1 hour)
   const cacheKey = 'gp_oura_cache';
   const cached = JSON.parse(localStorage.getItem(cacheKey) || '{}');
-  
+
   if (!force && cached.timestamp && (Date.now() - cached.timestamp < 3600000)) {
     return cached.data;
   }
@@ -26,26 +27,29 @@ export async function fetchOuraData(force = false) {
     const today = new Date().toISOString().slice(0, 10);
     const d30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
 
-    const [readinessRes, sleepRes] = await Promise.all([
-      fetch(`https://api.ouraring.com/v2/usercollection/daily_readiness?start_date=${d30}&end_date=${today}`, { headers }),
-      fetch(`https://api.ouraring.com/v2/usercollection/daily_sleep?start_date=${d30}&end_date=${today}`, { headers })
-    ]);
+    const readinessRes = await fetch(
+      `https://api.ouraring.com/v2/usercollection/daily_readiness?start_date=${d30}&end_date=${today}`,
+      { headers }
+    );
 
-    if (!readinessRes.ok) throw new Error('Oura API error');
+    if (!readinessRes.ok) {
+      const errorText = await readinessRes.text();
+      throw new Error(`Oura API error: ${readinessRes.status} - ${errorText}`);
+    }
 
-    const readiness = await readinessRes.json();
-    const sleep = await sleepRes.json();
+    const readinessData = await readinessRes.json();
+    const latestReadiness = readinessData.data?.slice(-1)[0] || null;
 
     const data = {
-      readiness: readiness.data?.slice(-1)[0] || null,
-      sleep: sleep.data?.slice(-1)[0] || null,
+      readiness: latestReadiness,
       lastSync: new Date().toISOString()
     };
 
     localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() }));
     return data;
+
   } catch (e) {
     console.error('Oura fetch failed:', e);
-    return cached.data || null;
+    return { error: e.message, cached: cached.data || null };
   }
 }
