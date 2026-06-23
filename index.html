@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garage Protocol • Clean</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Garage Protocol</h1>
+    <p class="status">Clean rebuild • Chris</p>
+
+    <!-- Oura Section -->
+    <div class="card">
+      <h2>Oura Ring</h2>
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+        <input id="oura-token" type="password" placeholder="Paste Oura Personal Access Token" style="flex:1;">
+        <button id="save-token" class="btn">Save Token</button>
+      </div>
+      <div id="oura-status" class="status">Not connected</div>
+      <div style="margin-top:12px;">
+        <strong>Readiness:</strong> <span id="readiness-score">--</span>
+      </div>
+    </div>
+
+    <!-- Health Export -->
+    <div class="card">
+      <h2>Health Data (Apple Health)</h2>
+      <button id="load-health" class="btn">Load Health Export (JSON)</button>
+      <div id="health-status" class="status" style="margin-top:8px;"></div>
+      <p style="font-size:13px; color:#888; margin-top:8px;">
+        Pointing to clean <code>Git</code> folder
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Coming Next</h2>
+      <ul>
+        <li>Full workout days with checklists</li>
+        <li>Recovery Mode</li>
+        <li>Body metrics &amp; TRT tracking</li>
+        <li>Auto-refresh improvements</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

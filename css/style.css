@@ -1,0 +1,71 @@
+:root {
+  --bg: #07070a;
+  --s1: #0d0d11;
+  --s2: #13131a;
+  --s3: #1a1a23;
+  --tx: #ededf5;
+  --t2: #9898b8;
+  --t3: #5c5c7a;
+  --red: #e8341a;
+  --grn: #22c55e;
+  --amb: #f59e0b;
+  --blu: #3b82f6;
+  --r: 14px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--tx);
+  font-family: 'Sora', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: var(--s1);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+input, select {
+  background: var(--s2);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--tx);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--t3);
+}
