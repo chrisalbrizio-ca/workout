@@ -9,6 +9,8 @@ export function saveOuraToken(token) {
   localStorage.setItem(OURA_KEY, token.trim());
 }
 
+const PROXY_URL = 'https://oura-proxy.chrisalbrizio.workers.dev';
+
 export async function fetchOuraData(force = false) {
   const token = getOuraToken();
   if (!token) {
@@ -23,21 +25,25 @@ export async function fetchOuraData(force = false) {
   }
 
   try {
-    const headers = { 'Authorization': `Bearer ${token}` };
     const today = new Date().toISOString().slice(0, 10);
     const d30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
 
-    const readinessRes = await fetch(
-      `https://api.ouraring.com/v2/usercollection/daily_readiness?start_date=${d30}&end_date=${today}`,
-      { headers }
+    const proxyRes = await fetch(
+      `${PROXY_URL}/v2/usercollection/daily_readiness?start_date=${d30}&end_date=${today}`,
+      {
+        headers: {
+          'X-Oura-Token': token,
+          'Content-Type': 'application/json'
+        }
+      }
     );
 
-    if (!readinessRes.ok) {
-      const errorText = await readinessRes.text();
-      throw new Error(`Oura API error: ${readinessRes.status} - ${errorText}`);
+    if (!proxyRes.ok) {
+      const errorText = await proxyRes.text();
+      throw new Error(`Proxy error: ${proxyRes.status} - ${errorText}`);
     }
 
-    const readinessData = await readinessRes.json();
+    const readinessData = await proxyRes.json();
     const latestReadiness = readinessData.data?.slice(-1)[0] || null;
 
     const data = {
