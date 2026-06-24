@@ -14,11 +14,25 @@
     <!-- Oura Section -->
     <div class="card">
       <h2>Oura Ring</h2>
+      
+      <!-- Local Token -->
       <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
         <input id="oura-token" type="password" placeholder="Paste Oura Personal Access Token" style="flex:1;">
         <button id="save-token" class="btn">Save Token</button>
       </div>
-      <div id="oura-status" class="status">Not connected</div>
+
+      <!-- Cloud Save / Load -->
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid #333;">
+        <div style="font-size:13px; color:#aaa; margin-bottom:6px;">Cross-device sync (optional)</div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <input id="cloud-password" type="password" placeholder="Cloud Password" style="flex:1; min-width:160px;">
+          <button id="save-cloud" class="btn btn-secondary">Save to Cloud</button>
+          <button id="load-cloud" class="btn btn-secondary">Load from Cloud</button>
+        </div>
+        <div id="cloud-status" class="status" style="margin-top:6px; font-size:12px;"></div>
+      </div>
+
+      <div id="oura-status" class="status" style="margin-top:12px;">Not connected</div>
       <div style="margin-top:12px;">
         <strong>Readiness:</strong> <span id="readiness-score">--</span>
       </div>
