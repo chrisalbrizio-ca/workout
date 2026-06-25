@@ -143,4 +143,75 @@ function showCloudStatus(message, color = 'white') {
   }
 }
 
+// === Workout day switching ===
+document.querySelectorAll('.workout-day-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.workout-day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.workout-day').forEach(div => div.style.display = 'none');
+    const day = btn.dataset.day;
+    const target = document.getElementById(`workout-${day}`);
+    if (target) target.style.display = 'block';
+  };
+});
+
+// Save workout progress
+const saveWorkoutBtn = document.getElementById('save-workout');
+if (saveWorkoutBtn) {
+  saveWorkoutBtn.onclick = () => {
+    const checked = [];
+    document.querySelectorAll('.workout-day input[type="checkbox"]:checked').forEach(cb => {
+      checked.push(cb.parentElement.textContent.trim());
+    });
+    localStorage.setItem('gp_workout_progress', JSON.stringify(checked));
+    const status = document.getElementById('workout-status');
+    if (status) status.textContent = 'Workout progress saved ✓';
+  };
+}
+
+// Body Metrics
+const saveMetricsBtn = document.getElementById('save-metrics');
+if (saveMetricsBtn) {
+  saveMetricsBtn.onclick = () => {
+    const metrics = {
+      weight: document.getElementById('metric-weight').value,
+      bodyfat: document.getElementById('metric-bodyfat').value,
+      trt: document.getElementById('metric-trt').value,
+      notes: document.getElementById('metric-notes').value,
+      date: new Date().toISOString()
+    };
+    localStorage.setItem('gp_body_metrics', JSON.stringify(metrics));
+    const status = document.getElementById('metrics-status');
+    if (status) status.textContent = 'Metrics saved ✓';
+  };
+}
+
+// Recovery advice based on Readiness
+function updateRecoveryAdvice(score) {
+  const adviceEl = document.getElementById('recovery-advice');
+  if (!adviceEl) return;
+
+  let html = '';
+  if (!score || score < 70) {
+    html = `<p style="color:#f87171;">Low Readiness — Focus on sleep, light walks, and recovery. Consider a deload day.</p>`;
+  } else if (score < 85) {
+    html = `<p style="color:#facc15;">Moderate Readiness — Solid day for training. Prioritize sleep and nutrition.</p>`;
+  } else {
+    html = `<p style="color:#4ade80;">High Readiness — Excellent day to push hard in the gym.</p>`;
+  }
+  adviceEl.innerHTML = html;
+}
+
+// Hook recovery updates into Oura refresh
+const originalUpdateDashboard = updateDashboard;
+updateDashboard = function(data) {
+  originalUpdateDashboard(data);
+  if (data.readiness && data.readiness.score) {
+    const recEl = document.getElementById('recovery-score');
+    if (recEl) recEl.textContent = data.readiness.score;
+    updateRecoveryAdvice(data.readiness.score);
+  }
+};
+
 window.addEventListener('DOMContentLoaded', init);

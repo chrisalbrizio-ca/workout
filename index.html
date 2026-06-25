@@ -48,14 +48,81 @@
       </p>
     </div>
 
+    <!-- Workouts -->
     <div class="card">
-      <h2>Coming Next</h2>
-      <ul>
-        <li>Full workout days with checklists</li>
-        <li>Recovery Mode</li>
-        <li>Body metrics &amp; TRT tracking</li>
-        <li>Auto-refresh improvements</li>
-      </ul>
+      <h2>Workouts</h2>
+      <div style="margin-bottom:12px;">
+        <button class="workout-day-btn active" data-day="upper">Upper Body</button>
+        <button class="workout-day-btn" data-day="lower">Lower Body</button>
+        <button class="workout-day-btn" data-day="full">Full Body</button>
+      </div>
+
+      <div id="workout-upper" class="workout-day">
+        <h4>Upper Body</h4>
+        <label><input type="checkbox"> Bench Press 4x8</label><br>
+        <label><input type="checkbox"> Overhead Press 3x10</label><br>
+        <label><input type="checkbox"> Pull-ups 4x max</label><br>
+        <label><input type="checkbox"> Bent Over Rows 3x12</label><br>
+        <label><input type="checkbox"> Lateral Raises 3x15</label><br>
+        <label><input type="checkbox"> Tricep Pushdowns 3x12</label>
+      </div>
+
+      <div id="workout-lower" class="workout-day" style="display:none;">
+        <h4>Lower Body</h4>
+        <label><input type="checkbox"> Squats 4x8</label><br>
+        <label><input type="checkbox"> Romanian Deadlifts 3x10</label><br>
+        <label><input type="checkbox"> Bulgarian Split Squats 3x10/leg</label><br>
+        <label><input type="checkbox"> Leg Press 3x12</label><br>
+        <label><input type="checkbox"> Calf Raises 4x15</label>
+      </div>
+
+      <div id="workout-full" class="workout-day" style="display:none;">
+        <h4>Full Body</h4>
+        <label><input type="checkbox"> Goblet Squats 3x12</label><br>
+        <label><input type="checkbox"> Push-ups 4x max</label><br>
+        <label><input type="checkbox"> Dumbbell Rows 3x12</label><br>
+        <label><input type="checkbox"> Kettlebell Swings 4x15</label><br>
+        <label><input type="checkbox"> Plank 3x45s</label>
+      </div>
+
+      <button id="save-workout" class="btn" style="margin-top:12px;">Save Progress</button>
+      <div id="workout-status" class="status" style="margin-top:6px;"></div>
+    </div>
+
+    <!-- Recovery Mode -->
+    <div class="card">
+      <h2>Recovery Mode</h2>
+      <div id="recovery-content">
+        <p><strong>Based on current Readiness:</strong> <span id="recovery-score">--</span></p>
+        <div id="recovery-advice">
+          <p>Load your Oura data above to get personalized recovery recommendations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Metrics -->
+    <div class="card">
+      <h2>Body Metrics &amp; TRT Tracking</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div>
+          <label>Weight (lbs)</label><br>
+          <input id="metric-weight" type="number" step="0.1" placeholder="Current weight">
+        </div>
+        <div>
+          <label>Body Fat %</label><br>
+          <input id="metric-bodyfat" type="number" step="0.1" placeholder="Body fat %">
+        </div>
+        <div>
+          <label>TRT Dose (mg/week)</label><br>
+          <input id="metric-trt" type="number" placeholder="Weekly TRT dose">
+        </div>
+        <div>
+          <label>Notes</label><br>
+          <input id="metric-notes" type="text" placeholder="Energy, mood, sides...">
+        </div>
+      </div>
+      <button id="save-metrics" class="btn" style="margin-top:12px;">Save Metrics</button>
+      <div id="metrics-status" class="status" style="margin-top:6px;"></div>
     </div>
   </div>
 
