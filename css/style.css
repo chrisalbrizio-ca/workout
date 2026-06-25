@@ -54,6 +54,45 @@ h1 {
 
 .btn:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #27273a;
+  color: #ededf5;
+}
+
+.btn-secondary:hover {
+  background: #3a3a52;
+}
+
+.workout-day-btn {
+  background: #27273a;
+  color: #ededf5;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.workout-day-btn.active {
+  background: var(--red);
+  color: white;
+}
+
+.workout-day label {
+  display: block;
+  padding: 6px 0;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.status {
+  font-size: 13px;
+  color: var(--t2);
 }
 
 input, select {
